@@ -17,7 +17,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:application",
           "options": {
-            "outputPath": "dist/angular-multi-env",
+            "outputPath": "dist.dev/angular-multi-env",
             "index": "src/index.html",
             "browser": "src/main.ts",
             "polyfills": [
@@ -38,24 +38,64 @@
           },
           "configurations": {
             "production": {
+              "outputPath": "dist.prod/angular-multi-env",
+                "outputHashing": "all",
+                "budgets": [
+                  {
+                    "type": "initial",
+                    "maximumWarning": "500kB",
+                    "maximumError": "1MB"
+                  },
+                  {
+                    "type": "anyComponentStyle",
+                    "maximumWarning": "2kB",
+                    "maximumError": "4kB"
+                  }
+                ],
+                "fileReplacements": [
+                  {
+                    "replace": "src/environments/environment.ts",
+                    "with": "src/environments/environment.production.ts"
+                  }
+                ]
+            },
+            "staging": {
+              "outputPath": "dist.staging/angular-multi-env",
+              "aot": true,
+              "optimization": true,
+              "sourceMap": false,
+              "extractLicenses": true,
+              "outputHashing": "all",
               "budgets": [
                 {
                   "type": "initial",
-                  "maximumWarning": "500kB",
-                  "maximumError": "1MB"
+                  "maximumWarning": "2MB",
+                  "maximumError": "4MB"
                 },
                 {
                   "type": "anyComponentStyle",
-                  "maximumWarning": "2kB",
-                  "maximumError": "4kB"
+                  "maximumWarning": "4kB",
+                  "maximumError": "8kB"
                 }
               ],
-              "outputHashing": "all"
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.staging.ts"
+                }
+              ]
             },
             "development": {
+              "outputPath": "dist.dev/angular-multi-env",
               "optimization": false,
               "extractLicenses": false,
-              "sourceMap": true
+              "sourceMap": true,
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.development.ts"
+                }
+              ]
             }
           },
           "defaultConfiguration": "production"
@@ -65,6 +105,9 @@
           "configurations": {
             "production": {
               "buildTarget": "angular-multi-env:build:production"
+            },
+            "staging": {
+              "buildTarget": "angular-multi-env:build:staging"
             },
             "development": {
               "buildTarget": "angular-multi-env:build:development"
