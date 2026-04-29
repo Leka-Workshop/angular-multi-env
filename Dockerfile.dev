@@ -1,0 +1,21 @@
+# Use an official Node runtime as the base image
+FROM node:22-alpine
+
+# Set the working directory
+WORKDIR /usr/src/app
+
+# Copy package files and install dependencies
+COPY package*.json ./
+RUN npm install
+
+# Install Angular CLI to be able to use ng serve
+RUN npm install -g @angular/cli
+
+# Copy the rest of the application code
+COPY . .
+
+# Expose the default Angular port
+EXPOSE 4200
+
+# Run ng serve, listening on all interfaces
+CMD ["ng", "serve", "--host", "0.0.0.0"]
