@@ -4,6 +4,9 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
+    "prebuild:development": "node scripts/index development",
+    "prebuild:staging": "node scripts/index staging",
+    "prebuild:production": "node scripts/index production",
     "build:development": "ng build --configuration development",
     "build:staging": "ng build --configuration staging",
     "build:production": "ng build --configuration production",
