@@ -6,6 +6,11 @@ try {
 
   // Read the (env) argument from CLI
   const environment = process.argv[2];
+
+  if (!environment) {
+    throw new Error(`Missing environment flag: ${environment}!`);
+  }
+
   const allowedEnvs = ['development', 'staging', 'production'];
 
   if (!allowedEnvs.includes(environment.toLowerCase())) {
@@ -28,7 +33,7 @@ try {
     path: pathToEnvFile
   });
 
-  // Environment variable should appear in the process.env object
+  // The environment variables should appear in the process.env object
   console.table({
     environment,
     isProduction: process.env.production,
@@ -73,7 +78,7 @@ try {
     contentToOverride = updatedContent;
   }
 
-  // Override the file
+  // Override the file content
   fs.writeFileSync(pathToAngularEnvFile, contentToOverride);
 
   console.log('Environment file updated!');
